@@ -7,6 +7,25 @@ songList=[]
 
 
 
+def youtube(song):
+
+    # driver=webdriver.Firefox(firefox_profile="/home/destroyer/.mozilla/firefox/v8gm5evo.default",executable_path=r'//home//destroyer//Downloads//geckodriver')
+
+    # driver.get("https://www.youtube.com/")
+    driver.get("https://www.youtube.com/")
+
+    driver.find_element_by_xpath("//input[@id='search']").send_keys(song+" lyrics") #Search for video
+    driver.find_element_by_xpath("//button[@id='search-icon-legacy']").click() #click the search button
+    driver.find_element_by_xpath('//a[@id="video-title"]').click()# click the link
+    driver.implicitly_wait(3)
+    driver.find_element_by_xpath('//*[@aria-label="Save"]').click()#add to playlist
+    driver.find_element_by_xpath("//*[@title='Songs']//parent::div[@id='checkbox-label']//parent::div[@id='checkbox-container']//parent::div[@id='checkboxLabel']//preceding-sibling::div[@id='checkboxContainer']").click()#adding to playlist
+    #driver.find_element_by_xpath('//div[@id="columns"]').click()
+    #driver.quit()
+    time.sleep(5)
+
+
+
 def scroll_down():
     """A method for scrolling the page."""
 
@@ -46,7 +65,9 @@ def getTrackList(source):
 	print(tracks)
 
 
-driver=webdriver.Firefox(firefox_profile="/home/udit/Desktop/PythonSc",executable_path=r'//home//udit//Downloads//geckodriver')
+driver=webdriver.Firefox(firefox_profile="/home/destroyer/.mozilla/firefox/v8gm5evo.default",executable_path=r'//home//destroyer//Downloads//geckodriver')
+
+
 driver.get("https://open.spotify.com/browse/featured")
 driver.implicitly_wait(3)
 print(driver.current_url)
@@ -74,12 +95,12 @@ for i in y:
 driver.implicitly_wait(3)
 print(driver.current_url)
 
-c=0
 
 scroll_down()
 
-print("usinf selenium")
+
 z=driver.find_elements_by_xpath("//div[@class='tracklist-name ellipsis-one-line']")
+
 for i in z:
 	ex=str(i.text)
 	if '-' in ex:
@@ -87,4 +108,16 @@ for i in z:
 		ex=cc[0]
 	songList.append(ex)
 
-print(songList)
+
+# driver=webdriver.Firefox(firefox_profile="/home/destroyer/.mozilla/firefox/v8gm5evo.default",executable_path=r'//home//destroyer//Downloads//geckodriver')
+
+
+test=[]
+i1=0
+
+for i in songList:
+    youtube(i)
+    if i1==10:
+        driver.quit()
+        break
+    i1+=1
